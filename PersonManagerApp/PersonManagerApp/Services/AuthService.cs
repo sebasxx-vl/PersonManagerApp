@@ -23,6 +23,7 @@ public class AuthService
             string password = Console.ReadLine();
 
             var users = File.ReadAllLines(path)
+                .Where(line => !string.IsNullOrWhiteSpace(line))
                 .Select(line =>
                 {
                     var parts = line.Split(',');

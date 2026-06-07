@@ -18,6 +18,8 @@ namespace PersonManagerApp.Services
 
             foreach (var line in lines)
             {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+
                 var parts = line.Split(',');
 
                 persons.Add(new Person
@@ -235,7 +237,6 @@ namespace PersonManagerApp.Services
                 foreach (var person in city)
                 {
                     Console.WriteLine($"{person.Id}   {person.FirstName}   {person.LastName}   ${person.Balance:N2}");
-
                     total += person.Balance;
                 }
 
@@ -252,12 +253,8 @@ namespace PersonManagerApp.Services
 
         private void SavePersons(List<Person> persons)
         {
-            List<string> lines = new List<string>();
-
-            foreach (var person in persons)
-            {
-                lines.Add($"{person.Id},{person.FirstName},{person.LastName},{person.Phone},{person.City},{person.Balance}");
-            }
+            var lines = persons.Select(p =>
+                $"{p.Id},{p.FirstName},{p.LastName},{p.Phone},{p.City},{p.Balance}");
 
             File.WriteAllLines(path, lines);
         }
